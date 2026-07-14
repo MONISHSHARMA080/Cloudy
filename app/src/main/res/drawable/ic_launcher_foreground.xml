@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Minimalist Sun behind Cloud in pure white, centered perfectly inside the 108dp canvas -->
+    
+    <!-- Sun Circle -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M64,44a14,14 0,1 0,-28 0,14,14 0,1 0,28 0" />
+
+    <!-- Sun Rays (minimalist geometric accents) -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M50,22 L50,16 M50,72 L50,66 M28,44 L22,44 M78,44 L72,44" />
+
+    <!-- Cloud Base with strong black cutout fill and white border stroke to overlap and stand out -->
+    <path
+        android:fillColor="#121212"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineJoin="round"
+        android:pathData="M38,66h26A12,12 0,0 0,76,54A11,11 0,0 0,66,43A14,14 0,0 0,40,43A10,10 0,0 0,30,53A13,13 0,0 0,38,66z" />
+</vector>

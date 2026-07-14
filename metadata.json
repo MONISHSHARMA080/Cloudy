@@ -1,0 +1,6 @@
+{
+  "name": "Minimal Weather",
+  "description": "A beautiful, minimalist black and white weather app designed for high contrast and ultra-clean typography.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
