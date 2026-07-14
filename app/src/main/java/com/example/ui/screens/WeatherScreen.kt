@@ -294,37 +294,13 @@ fun WeatherScreen(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(vertical = 24.dp),
+                                        .padding(horizontal = 24.dp, vertical = 24.dp),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center
                                 ) {
-                                    // 1. City Name
-                                    Text(
-                                        text = state.location.name.uppercase(Locale.getDefault()),
-                                        fontFamily = FontFamily.SansSerif,
-                                        fontSize = 32.sp,
-                                        fontWeight = FontWeight.Light,
-                                        letterSpacing = 6.sp,
-                                        color = MaterialTheme.colorScheme.onBackground,
-                                        textAlign = TextAlign.Center,
-                                        modifier = Modifier.testTag("weather_city_name")
-                                    )
-
-                                    // 2. Date
-                                    Text(
-                                        text = getCurrentDateString(),
-                                        fontFamily = FontFamily.Monospace,
-                                        fontSize = 10.sp,
-                                        letterSpacing = 1.sp,
-                                        color = MaterialTheme.colorScheme.secondary,
-                                        modifier = Modifier.padding(top = 4.dp)
-                                    )
-
-                                    Spacer(modifier = Modifier.height(36.dp))
-
-                                    // 3. Large Center Temperature
                                     val current = state.weather.current
                                     if (current != null) {
+                                        // 1. Large Center Temperature
                                         Text(
                                             text = "${current.temperature.toInt()}°",
                                             fontFamily = FontFamily.SansSerif,
@@ -336,7 +312,7 @@ fun WeatherScreen(
                                             modifier = Modifier.testTag("weather_temp")
                                         )
 
-                                        // 4. Condition Label
+                                        // 2. Condition Label
                                         val (_, conditionLabel) = getWeatherIconAndLabel(current.weatherCode)
                                         Text(
                                             text = conditionLabel.uppercase(Locale.getDefault()),
@@ -349,9 +325,33 @@ fun WeatherScreen(
                                             modifier = Modifier.padding(top = 8.dp)
                                         )
 
-                                        Spacer(modifier = Modifier.height(32.dp))
+                                        Spacer(modifier = Modifier.height(12.dp))
 
-                                        // 5. Centered Gemini Summary block (The poetic weather narrative)
+                                        // 3. Elegant Location & Date Line
+                                        val locationAndDate = buildString {
+                                            append(state.location.name.uppercase(Locale.getDefault()))
+                                            state.location.country?.let {
+                                                append(", ${it.uppercase(Locale.getDefault())}")
+                                            }
+                                            append("  •  ")
+                                            append(getCurrentDateString().uppercase(Locale.getDefault()))
+                                        }
+                                        Text(
+                                            text = locationAndDate,
+                                            fontFamily = FontFamily.Monospace,
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            letterSpacing = 1.sp,
+                                            color = MaterialTheme.colorScheme.secondary,
+                                            textAlign = TextAlign.Center,
+                                            modifier = Modifier
+                                                .testTag("weather_city_name")
+                                                .padding(horizontal = 16.dp)
+                                        )
+
+                                        Spacer(modifier = Modifier.height(36.dp))
+
+                                        // 4. Centered Gemini Summary block (The poetic weather narrative)
                                         val onBg = MaterialTheme.colorScheme.onBackground
                                         val annotatedText = remember(state.summary, onBg) {
                                             parseMarkdownToAnnotatedString(state.summary, onBg)
@@ -364,12 +364,12 @@ fun WeatherScreen(
                                             textAlign = TextAlign.Center,
                                             fontWeight = FontWeight.Normal,
                                             color = MaterialTheme.colorScheme.onBackground,
-                                            modifier = Modifier.padding(horizontal = 16.dp)
+                                            modifier = Modifier.padding(horizontal = 8.dp)
                                         )
 
-                                        Spacer(modifier = Modifier.height(40.dp))
+                                        Spacer(modifier = Modifier.height(36.dp))
 
-                                        // 6. Minimal Stats Line
+                                        // 5. Minimal Stats Line
                                         Text(
                                             text = "FEELS LIKE ${current.apparentTemperature?.toInt() ?: current.temperature.toInt()}°  •  WIND ${current.windSpeed?.toInt() ?: 0} KM/H  •  HUMIDITY ${current.humidity?.toInt() ?: 0}%",
                                             fontFamily = FontFamily.Monospace,
@@ -379,9 +379,14 @@ fun WeatherScreen(
                                             color = MaterialTheme.colorScheme.secondary,
                                             textAlign = TextAlign.Center
                                         )
+
+                                        Spacer(modifier = Modifier.height(44.dp))
+
+                                        // 6. 7-Day Forecast Section
+                                        DailyForecastSection(weather = state.weather)
                                     }
 
-                                    Spacer(modifier = Modifier.height(48.dp))
+                                    Spacer(modifier = Modifier.height(40.dp))
 
                                     // 7. Saved Locations quick selector at the bottom
                                     if (savedLocations.size > 1) {
